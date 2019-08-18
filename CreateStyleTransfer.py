@@ -106,8 +106,6 @@ def getStyleTransferredImage(contentImagePath, styleImagePath, savePath):
 
   style_weights = [0.02,0.07,0.4,0.3,0.2]
 
-
-
   loss =  K.mean(K.square(content_model.output - content_target))
 
   for w, symbolic, actual in zip(style_weights, symbolic_conv_outputs, style_layers_outputs):
