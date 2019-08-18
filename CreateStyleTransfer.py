@@ -14,6 +14,7 @@ from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import preprocess_input
 from keras.preprocessing import image
 from skimage.transform import resize
+from keras.preprocessing.image import save_img
 from datetime import datetime
 import keras.backend as K
 import numpy as np
@@ -21,7 +22,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import fmin_l_bfgs_b
 from Utils import Utils
 
-utils = Utils(300, 300)
+utils = Utils(420, 420)
 
 def VGGAveragePool(shape):
   vgg = VGG16(input_shape=shape, weights='imagenet', include_top=False)
@@ -79,7 +80,7 @@ def minimize(fn, epochs, batch_shape):
   final_img = utils.unpreprocess(newimg)
   return final_img[0]
 
-def getStylizedFrame(contentImagePath, styleImagePath):
+def getStyleTransferredImage(contentImagePath, styleImagePath, savePath):
 
   content_img = utils.preprocessImage(contentImagePath)
   h, w = content_img.shape[1:3]
@@ -103,7 +104,7 @@ def getStylizedFrame(contentImagePath, styleImagePath):
 
   style_layers_outputs = [K.variable(y) for y in style_model.predict(style_img)]
 
-  style_weights = [0.05,0.1,0.05,0.15,0.05]
+  style_weights = [0.02,0.07,0.4,0.3,0.2]
 
 
 
@@ -127,5 +128,6 @@ def getStylizedFrame(contentImagePath, styleImagePath):
   final_img = minimize(get_loss_and_grads_wrapper, 10, batch_shape)
   plt.imshow(utils.scaleImage(final_img))
   plt.show()
+  save_img(savePath, final_img)
 
-getStylizedFrame("./cat.jpg", "./style1.jpg")
+getStyleTransferredImage("./ContentImages/howrahBridge.jpg", "./StyleImages/abstractHumans.jpg", "StylizedImages/stylizedHowrahBridge.jpg")
