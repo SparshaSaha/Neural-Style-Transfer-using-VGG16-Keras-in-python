@@ -128,4 +128,4 @@ def getStyleTransferredImage(contentImagePath, styleImagePath, savePath):
   plt.show()
   save_img(savePath, final_img)
 
-getStyleTransferredImage("./ContentImages/howrahBridge.jpg", "./StyleImages/abstractHumans.jpg", "StylizedImages/stylizedHowrahBridge.jpg")
+getStyleTransferredImage("./ContentImages/India.jpg", "./StyleImages/abstractHumans.jpg", "StylizedImages/stylizedHowrahBridge.jpg")
